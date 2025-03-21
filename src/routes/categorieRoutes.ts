@@ -1,11 +1,12 @@
 import { Router } from 'express';
-import { getCategories, getCategorie, createCategorie, deleteCategorieData } from '../controllers/categorieController';
+import { authenticateJWT } from '../middlewares/authMiddleware'; // ✅ Ajout du middleware
+import { getCategories, getCategorie, createCategorie, removeCategorie } from '../controllers/categorieController';
 
-const router = Router();
+const categorie = Router();
 
-router.get('/', getCategories); // Récupérer toutes les catégories
-router.get('/:id', getCategorie); // Récupérer une catégorie par ID
-router.post('/', createCategorie); // Ajouter une catégorie
-router.delete('/:id', deleteCategorieData); // Supprimer une catégorie
+categorie.get('/', authenticateJWT, getCategories); // ✅ Récupérer les catégories accessibles
+categorie.get('/:id', authenticateJWT, getCategorie); // ✅ Récupérer une catégorie par ID
+categorie.post('/', authenticateJWT, createCategorie); // ✅ Ajouter une catégorie (ADMIN)
+categorie.delete('/:id', authenticateJWT, removeCategorie); // ✅ Supprimer une catégorie (ADMIN)
 
-export default router;
+export default categorie;

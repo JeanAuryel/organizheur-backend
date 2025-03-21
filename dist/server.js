@@ -23,7 +23,12 @@ const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
 // Middlewares globaux
 app.use((0, helmet_1.default)());
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: "http://localhost:5173", // 🔥 Autorise uniquement le frontend
+    credentials: true, // 🔥 Permet d'envoyer les cookies & tokens
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+}));
 app.use(body_parser_1.default.json());
 app.get('/', (req, res) => {
     res.send('Welcome to Organizheur Backend API');

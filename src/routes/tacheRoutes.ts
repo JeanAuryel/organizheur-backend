@@ -1,11 +1,13 @@
 import { Router } from 'express';
-import { getTaches, getTache, createTache, deleteTacheData } from '../controllers/tacheController';
+import { authenticateJWT } from '../middlewares/authMiddleware'; // ✅ Protection des routes
+import { getTaches, getTache, getTachesForUser, createTache, removeTache } from '../controllers/tacheController';
 
-const router = Router();
+const tache = Router();
 
-router.get('/', getTaches); // Récupérer toutes les tâches
-router.get('/:id', getTache); // Récupérer une tâche par ID
-router.post('/', createTache); // Ajouter une tâche
-router.delete('/:id', deleteTacheData); // Supprimer une tâche
+tache.get('/', authenticateJWT, getTaches); // ✅ Récupérer les tâches accessibles
+tache.get('/:id', authenticateJWT, getTache); // ✅ Récupérer une tâche par ID
+tache.get('/mine', authenticateJWT, getTachesForUser);
+tache.post('/', authenticateJWT, createTache); // ✅ Ajouter une tâche (ADMIN pour non personnelles)
+tache.delete('/:id', authenticateJWT, removeTache); // ✅ Supprimer une tâche (ADMIN pour non personnelles)
 
-export default router;
+export default tache;

@@ -49,29 +49,32 @@ const dbconfig_1 = __importDefault(require("../config/dbconfig"));
 const bcrypt = __importStar(require("bcrypt"));
 const updatePasswords = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // Récupérer tous les employés avec leur mot de passe actuel
-        const [rows] = yield dbconfig_1.default.query('SELECT employeMail, employeMdp FROM employé');
-        for (const employe of rows) {
-            const { employeMail, employeMdp } = employe;
-            // Vérifier si le mot de passe est déjà haché (bcrypt commence par "$2b$")
-            if (employeMdp.startsWith('$2b$')) {
-                console.log(`✅ Mot de passe déjà haché pour ${employeMail}, aucun changement.`);
-                continue;
+        // Retrieve all employees
+        const [rows] = yield dbconfig_1.default.query('SELECT employeMail, employeMDP FROM employe');
+        // Prepare an array of promises
+        const updatePromises = rows.map((employe) => __awaiter(void 0, void 0, void 0, function* () {
+            const { employeMail, employeMDP } = employe;
+            // Skip if the password is already hashed
+            if (employeMDP.startsWith('$2b$')) {
+                console.log(`✅ Password already hashed for ${employeMail}, skipping.`);
+                return null;
             }
-            // Hacher le mot de passe
+            // Hash the password
             const saltRounds = 10;
-            const hashedPassword = yield bcrypt.hash(employeMdp, saltRounds);
-            // Mettre à jour le mot de passe en base
-            yield dbconfig_1.default.query('UPDATE employé SET employeMdp = ? WHERE employeMail = ?', [hashedPassword, employeMail]);
-            console.log(`🔄 Mot de passe mis à jour pour ${employeMail}`);
-        }
-        console.log('✅ Tous les mots de passe ont été mis à jour avec succès.');
-        process.exit(); // Quitter le script proprement
+            const hashedPassword = yield bcrypt.hash(employeMDP, saltRounds);
+            // Update the database
+            yield dbconfig_1.default.query('UPDATE employe SET employeMDP = ? WHERE employeMail = ?', [hashedPassword, employeMail]);
+            console.log(`🔄 Password updated for ${employeMail}`);
+        }));
+        // Execute all updates in parallel
+        yield Promise.all(updatePromises);
+        console.log('✅ All passwords have been updated successfully.');
+        process.exit(); // Exit the script cleanly
     }
     catch (error) {
-        console.error('❌ Erreur lors de la mise à jour des mots de passe :', error);
+        console.error('❌ Error updating passwords:', error);
         process.exit(1);
     }
 });
-// Exécuter le script
+// Run the script
 updatePasswords();
