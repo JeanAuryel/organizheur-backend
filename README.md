@@ -17,14 +17,14 @@ Ce dépôt contient l'API de gestion des tâches, utilisateurs, catégories et l
 - **NestJS** - Framework progressif pour applications serveur
 - **TypeScript** - Langage de programmation typé
 - **TypeORM** - ORM pour TypeScript et JavaScript
-- **PostgreSQL** - Base de données relationnelle
+- **MySQL** - Base de données relationnelle
 - **JWT** - Authentification par tokens
 - **Passport** - Middleware d'authentification
 
 ## 📋 Prérequis
 
 - Node.js (v18 ou supérieur)
-- PostgreSQL (v14 ou supérieur)
+- MySQL (v8.0 ou supérieur)
 - npm ou yarn
 
 ## 🚀 Installation
@@ -38,22 +38,34 @@ npm install
 Créez un fichier `.env` à la racine du projet en vous basant sur `.env.example` :
 
 ```env
-DATABASE_HOST=localhost
-DATABASE_PORT=5432
-DATABASE_USERNAME=your_username
-DATABASE_PASSWORD=your_password
-DATABASE_NAME=organizheur
-JWT_SECRET=your_secret_key
+# Database Configuration
+DB_HOST=localhost
+DB_PORT=3306
+DB_USERNAME=root
+DB_PASSWORD=your_password
+DB_DATABASE=organizheur
+
+# JWT Configuration
+JWT_SECRET=your-secret-key-change-this-in-production
 JWT_EXPIRATION=24h
+
+# Application
 PORT=3000
+NODE_ENV=development
 ```
 
 ## 💾 Base de données
 
-Assurez-vous que PostgreSQL est installé et en cours d'exécution, puis créez la base de données :
+Assurez-vous que MySQL est installé et en cours d'exécution, puis créez la base de données :
+
+```sql
+CREATE DATABASE organizheur CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+Ou via la ligne de commande :
 
 ```bash
-createdb organizheur
+mysql -u root -p -e "CREATE DATABASE organizheur CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 ```
 
 L'application créera automatiquement les tables au démarrage grâce à TypeORM.
