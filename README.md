@@ -1,30 +1,39 @@
-# Organizheur - Backend
+# 🧠 Organizheur – Backend
 
-Backend API pour l'application Organizheur, un système de gestion de tâches et de listes pour entreprise.
+Ce dépôt contient l'API de gestion des tâches, utilisateurs, catégories et listes pour l'application **Organizheur**.
 
-## Technologies utilisées
+> 🔗 [Frontend associé](https://github.com/jeanauryel/organizheur-frontend)
 
+## 🎯 Fonctionnalités
+- Authentification avec rôles (admin, user)
+- Gestion des listes, tâches, utilisateurs, catégories
+- API REST structurée avec NestJS
+- Contrôle d'accès basé sur les rôles (RBAC)
+- Validation des données avec DTOs
+- Architecture modulaire et scalable
+
+## 🛠️ Stack
 - **Node.js** - Environnement d'exécution JavaScript
-- **NestJS** - Framework Node.js progressif pour applications serveur évolutives
+- **NestJS** - Framework progressif pour applications serveur
 - **TypeScript** - Langage de programmation typé
 - **TypeORM** - ORM pour TypeScript et JavaScript
 - **PostgreSQL** - Base de données relationnelle
 - **JWT** - Authentification par tokens
 - **Passport** - Middleware d'authentification
 
-## Prérequis
+## 📋 Prérequis
 
 - Node.js (v18 ou supérieur)
 - PostgreSQL (v14 ou supérieur)
 - npm ou yarn
 
-## Installation
+## 🚀 Installation
 
 ```bash
 npm install
 ```
 
-## Configuration
+## ⚙️ Configuration
 
 Créez un fichier `.env` à la racine du projet en vous basant sur `.env.example` :
 
@@ -39,7 +48,7 @@ JWT_EXPIRATION=24h
 PORT=3000
 ```
 
-## Base de données
+## 💾 Base de données
 
 Assurez-vous que PostgreSQL est installé et en cours d'exécution, puis créez la base de données :
 
@@ -49,7 +58,7 @@ createdb organizheur
 
 L'application créera automatiquement les tables au démarrage grâce à TypeORM.
 
-## Démarrage de l'application
+## ▶️ Démarrage
 
 ```bash
 # Mode développement
@@ -62,7 +71,7 @@ npm run start:prod
 
 L'API sera accessible sur `http://localhost:3000`
 
-## API Endpoints
+## 📡 API Endpoints
 
 ### Authentification
 - `POST /auth/login` - Connexion utilisateur
@@ -72,9 +81,17 @@ L'API sera accessible sur `http://localhost:3000`
 - `GET /employes` - Liste des employés (admin uniquement)
 - `GET /employes/me` - Profil de l'utilisateur connecté
 - `GET /employes/:mailEmploye` - Détails d'un employé
+- `GET /employes/categorie/:idCategorie` - Employés par catégorie
 - `POST /employes` - Créer un employé (admin uniquement)
 - `PATCH /employes/:mailEmploye` - Modifier un employé
 - `DELETE /employes/:mailEmploye` - Supprimer un employé (admin uniquement)
+
+### Catégories
+- `GET /categories` - Liste des catégories
+- `GET /categories/:id` - Détails d'une catégorie
+- `POST /categories` - Créer une catégorie (admin uniquement)
+- `PATCH /categories/:id` - Modifier une catégorie (admin uniquement)
+- `DELETE /categories/:id` - Supprimer une catégorie (admin uniquement)
 
 ### Listes
 - `GET /listes` - Toutes les listes accessibles
@@ -94,7 +111,7 @@ L'API sera accessible sur `http://localhost:3000`
 - `PATCH /taches/:id/toggle` - Basculer l'état d'une tâche
 - `DELETE /taches/:id` - Supprimer une tâche
 
-## Tests
+## 🧪 Tests
 
 ```bash
 # Tests unitaires
@@ -107,19 +124,20 @@ npm run test:e2e
 npm run test:cov
 ```
 
-## Structure du projet
+## 📁 Structure du projet
 
 ```
 src/
-├── auth/           # Module d'authentification
-├── dto/            # Data Transfer Objects
-├── entities/       # Entités TypeORM
+├── auth/           # Module d'authentification (JWT, Passport)
+├── dto/            # Data Transfer Objects (validation)
+├── entities/       # Entités TypeORM (modèles de données)
 ├── employe/        # Module employés
+├── categorie/      # Module catégories
 ├── liste/          # Module listes
 ├── tache/          # Module tâches
 └── main.ts         # Point d'entrée
 ```
 
-## Licence
+## 📝 Licence
 
 Ce projet est sous licence MIT.
