@@ -35,7 +35,28 @@ npm install
 
 ## ⚙️ Configuration
 
-Créez un fichier `.env` à la racine du projet en vous basant sur `.env.example` :
+Créez un fichier `.env` à la racine du projet en vous basant sur `.env.example`.
+
+### Option 1 : Utiliser DATABASE_URL (Railway, Heroku, etc.)
+
+Pour les services cloud comme Railway, utilisez directement la variable `DATABASE_URL` :
+
+```env
+# Database Configuration
+DATABASE_URL=mysql://user:password@host:port/database
+
+# JWT Configuration
+JWT_SECRET=your-secret-key-change-this-in-production
+JWT_EXPIRATION=24h
+
+# Application
+PORT=3000
+NODE_ENV=production
+```
+
+### Option 2 : Configuration locale avec variables individuelles
+
+Pour le développement local :
 
 ```env
 # Database Configuration
