@@ -28,6 +28,9 @@ import { TacheModule } from './tache/tache.module';
             entities: [__dirname + '/**/*.entity{.ts,.js}'],
             synchronize: false,
             logging: configService.get('NODE_ENV') === 'development',
+            extra: {
+              connectTimeout: 60000,
+            },
           };
         }
 
